@@ -1,0 +1,4 @@
+查询我的行程          intent: AskAuthority  entity:ask
+输入我的行程          intent: AskAuthority  entity:inputSchedual
+我要输入用户名        intent: AskAuthority  entity:inputUser
+输入用户名            跟在    查询我的行程/输入我的行程 之后
