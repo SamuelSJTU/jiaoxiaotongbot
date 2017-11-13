@@ -26,7 +26,7 @@ var QBH = require('./QB_api.js');
 
 //var useEmulator = (process.env.NODE_ENV == 'development');
 var useEmulator = false;
-var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure.BotServiceConnector({
+var connector = useEmulator ? new builder.ChatConnector() : new builder.ChatConnector({
     appId: process.env['MicrosoftAppId'],
     appPassword: process.env['MicrosoftAppPassword'],
     stateEndpoint: process.env['BotStateEndpoint'],
@@ -302,7 +302,13 @@ if (useEmulator) {
     });
     server.post('/api/messages', connector.listen());    
 } else {
-    module.exports = { default: connector.listen() }
+    // Setup Restify Server
+    var server = restify.createServer();
+    server.listen(process.env.port || process.env.PORT || 3978, function () {
+    console.log('%s listening to %s', server.name, server.url); 
+    });
+    // Listen for messages from users 
+    server.post('/api/messages', connector.listen());
 }
 
 
